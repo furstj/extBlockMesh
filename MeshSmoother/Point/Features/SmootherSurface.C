@@ -20,36 +20,55 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SmootherBoundaryLayer.h"
+#include "SmootherSurface.H"
 
-// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+#include "polyMesh.H"
+
+#include "SmootherBoundary.H"
+
+// * * * * * * * * * * * * * * * Private Functions * * * * * * * * * * * * * //
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::SmootherBoundaryLayer::SmootherBoundaryLayer(const dictionary &blDict)
+Foam::SmootherSurface::SmootherSurface
+(
+    const label ref,
+    const label featureRef,
+    const point& pt
+)
 :
-    _nbLayers(readLabel(blDict.lookup("nSurfaceLayers"))),
-    _expansionRatio(readScalar(blDict.lookup("expansionRatio"))),
-    _relativeSize(readBool(blDict.lookup("relativeSizes"))),
-    _finalLayerThickness(readScalar(blDict.lookup("finalLayerThickness")))
+    SmootherFeature(ref, featureRef, pt)
 {
-    Info<< "        - Number of BL       : " << _nbLayers << nl;
-    Info<< "        - Expansion ratio    : " << _expansionRatio << nl;
-    Info<< "        - Relatice size      : " << _relativeSize << nl;
-    Info<< "        - Final thickness    : " << _finalLayerThickness << nl;
-}
-
-Foam::SmootherBoundaryLayer::SmootherBoundaryLayer()
-:
-    _nbLayers(0.0),
-    _expansionRatio(1.0),
-    _relativeSize(true),
-    _finalLayerThickness(1)
-{
-
 }
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+
+void Foam::SmootherSurface::GETMeSmooth()
+{
+    SmootherPoint::GETMeSmooth();
+    _movedPt = _bnd->snapToSurf(_featureRef, _movedPt);
+}
+
+void SmootherSurface::snap()
+{
+    _movedPt = _bnd->snapToSurf(_featureRef, _initialPt);
+}
+
+void SmootherSurface::featLaplaceSmooth()
+{
+    const labelList& pp = _polyMesh->pointPoints(_ptRef);
+    label nbPt = 0;
+    _movedPt = point(0.0, 0.0, 0.0);
+    forAll(pp, ptI)
+    {
+        if (_bnd->pt(pp[ptI])->isSurface())
+        {
+            _movedPt += _bnd->pt(pp[ptI])->getRelaxedPoint();
+            ++nbPt;
+        }
+    }
+    _movedPt /= nbPt;
+}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

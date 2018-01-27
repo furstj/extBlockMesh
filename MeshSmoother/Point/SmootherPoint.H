@@ -23,7 +23,7 @@ License
 #ifndef MESHSMOOTHERPOINT_H
 #define MESHSMOOTHERPOINT_H
 
-#include "MeshSmoother.h"
+#include "MeshSmoother.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

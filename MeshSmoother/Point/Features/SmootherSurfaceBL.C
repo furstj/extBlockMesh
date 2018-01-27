@@ -1,4 +1,4 @@
-#include "SmootherSurfaceBL.h"
+#include "SmootherSurfaceBL.H"
 
 // * * * * * * * * * * * * * * * Private Functions * * * * * * * * * * * * * //
 

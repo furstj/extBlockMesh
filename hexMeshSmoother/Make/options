@@ -12,7 +12,6 @@ EXE_INC = \
 EXE_LIBS = \
     -lblockMesh \
     -lmeshTools \
-    -ledgeMesh \
     -ldynamicMesh \
     -L$(FOAM_USER_LIBBIN) \
     -lMeshSmoother

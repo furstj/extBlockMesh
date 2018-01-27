@@ -20,12 +20,12 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SmootherParameter.h"
+#include "SmootherParameter.H"
 
 #include "polyMesh.H"
 #include "Time.H"
 
-#include "MeshSmoother.h"
+#include "MeshSmoother.H"
 
 #include <cstdio>
 

@@ -20,7 +20,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SmootherControl.h"
+#include "SmootherControl.H"
 
 #include "dictionary.H"
 

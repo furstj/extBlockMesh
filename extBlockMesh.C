@@ -88,7 +88,7 @@ License
 #include <ios>
 
 // -- Created class
-#include "MeshSmoother.h"
+#include "MeshSmoother.H"
 //-----------------------------------------
 
 using namespace Foam;
@@ -122,14 +122,15 @@ int main(int argc, char *argv[])
     const word dictName("blockMeshDict");
 
     word regionName;
+    word regionPath;
     fileName polyMeshDir;
 
     if (args.optionReadIfPresent("region", regionName, polyMesh::defaultRegion))
     {
         // constant/<region>/polyMesh/blockMeshDict
         polyMeshDir = regionName/polyMesh::meshSubDir;
-
         Info<< nl << "Generating mesh for region " << regionName << endl;
+	regionPath = regionName;
     }
     else
     {
@@ -137,17 +138,51 @@ int main(int argc, char *argv[])
         polyMeshDir = polyMesh::meshSubDir;
     }
 
+    fileName dictPath;
+
+    // Check if the dictionary is specified on the command-line
+    if (args.optionFound("dict"))
+    {
+        dictPath = args["dict"];
+
+        dictPath =
+        (
+            isDir(dictPath)
+          ? dictPath/dictName
+          : dictPath
+        );
+    }
+    // Check if dictionary is present in the constant directory
+    else if
+    (
+        exists
+        (
+            runTime.path()/runTime.constant()
+           /regionPath/polyMesh::meshSubDir/dictName
+        )
+    )
+    {
+        dictPath =
+            runTime.constant()
+           /regionPath/polyMesh::meshSubDir/dictName;
+    }
+    // Otherwise assume the dictionary is present in the system directory
+    else
+    {
+        dictPath = runTime.system()/regionPath/dictName;
+    }
+
+    
     IOobject meshDictIO
     (
-        dictName,
-        runTime.constant(),
-        polyMeshDir,
+        dictPath,
         runTime,
         IOobject::MUST_READ,
         IOobject::NO_WRITE,
         false
     );
 
+    /*
     if (args.optionFound("dict"))
     {
         const fileName dictPath = args["dict"];
@@ -165,8 +200,9 @@ int main(int argc, char *argv[])
             false
         );
     }
-
-    if (!meshDictIO.headerOk())
+    */
+    
+    if (!meshDictIO.typeHeaderOk<IOdictionary>())
     {
         FatalErrorIn(args.executable())
             << "Cannot open mesh description file\n    "
@@ -178,11 +214,11 @@ int main(int argc, char *argv[])
     Info<< "Creating block mesh from\n    "
         << meshDictIO.objectPath() << endl;
 
-    blockMesh::verbose(false);
 
     IOdictionary meshDict(meshDictIO);
     blockMesh blocks(meshDict, regionName);
-
+    blocks.verbose(false);
+    
     if (args.optionFound("blockTopology"))
     {
         // Write mesh as edges.
@@ -264,7 +300,7 @@ int main(int argc, char *argv[])
         false
     );
 
-    if (!smootherDictIO.headerOk())
+    if (!smootherDictIO.typeHeaderOk<IOdictionary>())
     {
         FatalErrorIn(args.executable())
             << "Cannot open mesh smoothing file\n    "
@@ -337,8 +373,8 @@ int main(int argc, char *argv[])
         forAll(blocks, blockI)
         {
             const block& b = blocks[blockI];
-            const labelListList& blockCells = b.cells();
-            const word& zoneName = b.blockDef().zoneName();
+            const List<FixedList<label, 8>> blockCells = b.cells();
+            const word& zoneName = b.zoneName();
 
             if (zoneName.size())
             {

@@ -1,4 +1,3 @@
-#ifndef MESHSMOOTHERPOINTFEATURE_H
 /*---------------------------------------------------------------------------*\
   extBlockMesh
   Copyright (C) 2014 Etudes-NG
@@ -21,11 +20,11 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#define MESHSMOOTHERPOINTFEATURE_H
+#ifndef MESHSMOOTHERPOINTVERTEX_H
+#define MESHSMOOTHERPOINTVERTEX_H
 
-#include "SmootherPoint.h"
-
-#include "SmootherBoundary.h"
+#include "SmootherPoint.H"
+#include "polyMesh.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -33,40 +32,23 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                 Class MeshSmootherPointSurface Declaration
+                 Class MeshSmootherPointVertex Declaration
 \*---------------------------------------------------------------------------*/
 
-class SmootherFeature
+class SmootherVertex
 :
     public SmootherPoint
 {
-    //- Private data
-
-protected:
-
-    //- Protected data
-
-        // Feature ref
-        label _featureRef;
-
-        // Snaped point
-        point _snapPoint;
-
 public:
-    SmootherFeature(const label ref, const label featureRef, const point &pt);
+    SmootherVertex(const label ref, const point &pt);
 
-    ~SmootherFeature() {}
+    void GETMeSmooth() {_movedPt = _initialPt;}
+    void snap(){_movedPt = _initialPt;}
+    void laplaceSmooth() {}
 
-    inline void needSnap();
+    bool isEdge() const {return true;}
+    bool isSurface() const {return true;}
 };
-
-void SmootherFeature::needSnap()
-{
-    if (_relaxLevel == 0)
-    {
-        _bnd->removeSnapPoint(_ptRef);
-    }
-}
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -74,6 +56,6 @@ void SmootherFeature::needSnap()
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#endif // MESHSMOOTHERPOINTFEATURE_H
+#endif // MESHSMOOTHERPOINTVERTEX_H
 
 // ************************************************************************* //

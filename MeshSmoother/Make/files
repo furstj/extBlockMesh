@@ -1,13 +1,13 @@
-MeshSmoother.cpp
-SmootherBoundary.cpp
-SmootherControl.cpp
-SmootherParameter.cpp
-SmootherCell.cpp
-Point/SmootherPoint.cpp
-Point/SmootherVertex.cpp
-Point/Features/SmootherEdge.cpp
-Point/Features/SmootherFeature.cpp
-Point/Features/SmootherSurface.cpp
-BoundaryLayer/SmootherBoundaryLayer.cpp
+MeshSmoother.C
+SmootherBoundary.C
+SmootherControl.C
+SmootherParameter.C
+SmootherCell.C
+Point/SmootherPoint.C
+Point/SmootherVertex.C
+Point/Features/SmootherEdge.C
+Point/Features/SmootherFeature.C
+Point/Features/SmootherSurface.C
+BoundaryLayer/SmootherBoundaryLayer.C
 
 LIB = $(FOAM_USER_LIBBIN)/libMeshSmoother

@@ -20,34 +20,27 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef SMOOTHERSURFACEBL_H
-#define SMOOTHERSURFACEBL_H
+#include "SmootherFeature.H"
 
-#include "SmootherSurface.h"
+#include "polyMesh.H"
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-namespace Foam
-{
-
-/*---------------------------------------------------------------------------*\
-                 Class MeshSmootherPointSurface Declaration
-\*---------------------------------------------------------------------------*/
-
-class SmootherSurfaceBL
+Foam::SmootherFeature::SmootherFeature
+(
+    const label ref,
+    const label featureRef,
+    const point& pt
+)
 :
-    public SmootherSurface
+    SmootherPoint(ref, pt),
+    _featureRef(featureRef)
 {
-public:
-    SmootherSurfaceBL(const label ref, const label featureRef);
-};
+}
+
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif // SMOOTHERSURFACEBL_H
 
 // ************************************************************************* //

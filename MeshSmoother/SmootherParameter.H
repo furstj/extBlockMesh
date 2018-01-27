@@ -25,7 +25,7 @@ License
 
 #include "scalarList.H"
 
-#include "SmootherControl.h"
+#include "SmootherControl.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

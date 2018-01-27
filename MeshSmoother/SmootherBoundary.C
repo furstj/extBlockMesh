@@ -20,11 +20,11 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SmootherBoundary.h"
+#include "SmootherBoundary.H"
 
-#include "SmootherVertex.h"
-#include "SmootherEdge.h"
-#include "SmootherSurface.h"
+#include "SmootherVertex.H"
+#include "SmootherEdge.H"
+#include "SmootherSurface.H"
 
 #include "dictionary.H"
 #include "polyMesh.H"
@@ -96,7 +96,7 @@ void Foam::SmootherBoundary::analyseDict(dictionary &snapDict)
                             IOobject::NO_WRITE
                         );
 
-                        triSurface* bnd = new triSurface(surfFile.filePath());
+                        triSurface* bnd = new triSurface(surfFile.objectPath());
                         addTriFace(patchJ, bnd);
 
                         if (patchDic.found("internalFeatureEdges"))

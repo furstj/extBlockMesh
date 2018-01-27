@@ -42,7 +42,7 @@ License
 #include <ios>
 
 // -- Created class
-#include "MeshSmoother.h"
+#include "MeshSmoother.H"
 //-----------------------------------------
 
 using namespace Foam;
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
         false
     );
 
-    if (!smootherDictIO.headerOk())
+    if (!smootherDictIO.typeHeaderOk<IOdictionary>())
     {
         FatalErrorIn(args.executable())
             << "Cannot open mesh smoothing file\n    "

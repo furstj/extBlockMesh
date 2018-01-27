@@ -20,10 +20,10 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef MESHSMOOTHERPOINTEDGE_H
-#define MESHSMOOTHERPOINTEDGE_H
+#ifndef SMOOTHERSURFACEBL_H
+#define SMOOTHERSURFACEBL_H
 
-#include "SmootherFeature.h"
+#include "SmootherSurface.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -31,22 +31,15 @@ namespace Foam
 {
 
 /*---------------------------------------------------------------------------*\
-                 Class MeshSmootherPointEdge Declaration
+                 Class MeshSmootherPointSurface Declaration
 \*---------------------------------------------------------------------------*/
 
-class SmootherEdge
+class SmootherSurfaceBL
 :
-    public SmootherFeature
+    public SmootherSurface
 {
-
 public:
-    SmootherEdge(const label ref, const label featureRef, const point &pt);
-
-    void GETMeSmooth();
-    void snap();
-    void featLaplaceSmooth();
-    bool isEdge() const {return true;}
-    bool isSurface() const {return true;}
+    SmootherSurfaceBL(const label ref, const label featureRef);
 };
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
@@ -55,6 +48,6 @@ public:
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#endif // MESHSMOOTHERPOINTEDGE_H
+#endif // SMOOTHERSURFACEBL_H
 
 // ************************************************************************* //

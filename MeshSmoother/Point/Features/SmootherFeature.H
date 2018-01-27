@@ -1,3 +1,4 @@
+#ifndef MESHSMOOTHERPOINTFEATURE_H
 /*---------------------------------------------------------------------------*\
   extBlockMesh
   Copyright (C) 2014 Etudes-NG
@@ -20,56 +21,59 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SmootherSurface.h"
+#define MESHSMOOTHERPOINTFEATURE_H
 
-#include "polyMesh.H"
+#include "SmootherPoint.H"
 
-#include "SmootherBoundary.h"
+#include "SmootherBoundary.H"
 
-// * * * * * * * * * * * * * * * Private Functions * * * * * * * * * * * * * //
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
+namespace Foam
+{
 
-Foam::SmootherSurface::SmootherSurface
-(
-    const label ref,
-    const label featureRef,
-    const point& pt
-)
+/*---------------------------------------------------------------------------*\
+                 Class MeshSmootherPointSurface Declaration
+\*---------------------------------------------------------------------------*/
+
+class SmootherFeature
 :
-    SmootherFeature(ref, featureRef, pt)
+    public SmootherPoint
 {
-}
+    //- Private data
 
-// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
+protected:
 
-void Foam::SmootherSurface::GETMeSmooth()
+    //- Protected data
+
+        // Feature ref
+        label _featureRef;
+
+        // Snaped point
+        point _snapPoint;
+
+public:
+    SmootherFeature(const label ref, const label featureRef, const point &pt);
+
+    ~SmootherFeature() {}
+
+    inline void needSnap();
+};
+
+void SmootherFeature::needSnap()
 {
-    SmootherPoint::GETMeSmooth();
-    _movedPt = _bnd->snapToSurf(_featureRef, _movedPt);
-}
-
-void SmootherSurface::snap()
-{
-    _movedPt = _bnd->snapToSurf(_featureRef, _initialPt);
-}
-
-void SmootherSurface::featLaplaceSmooth()
-{
-    const labelList& pp = _polyMesh->pointPoints(_ptRef);
-    label nbPt = 0;
-    _movedPt = point(0.0, 0.0, 0.0);
-    forAll(pp, ptI)
+    if (_relaxLevel == 0)
     {
-        if (_bnd->pt(pp[ptI])->isSurface())
-        {
-            _movedPt += _bnd->pt(pp[ptI])->getRelaxedPoint();
-            ++nbPt;
-        }
+        _bnd->removeSnapPoint(_ptRef);
     }
-    _movedPt /= nbPt;
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+} // End namespace Foam
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+#endif // MESHSMOOTHERPOINTFEATURE_H
 
 // ************************************************************************* //

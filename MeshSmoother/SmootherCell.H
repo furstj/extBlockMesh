@@ -26,8 +26,8 @@ License
 #include "cellShape.H"
 #include "polyMesh.H"
 
-#include "SmootherBoundary.h"
-#include "SmootherPoint.h"
+#include "SmootherBoundary.H"
+#include "SmootherPoint.H"
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 

@@ -35,7 +35,7 @@ License
 #include "triSurfaceMesh.H"
 #include "surfaceFeatures.H"
 
-#include "SmootherBoundaryLayer.h"
+#include "SmootherBoundaryLayer.H"
 
 #include <map>
 #include <set>

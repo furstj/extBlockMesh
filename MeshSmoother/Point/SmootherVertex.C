@@ -20,39 +20,20 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#ifndef MESHSMOOTHERPOINTSURFACE_H
-#define MESHSMOOTHERPOINTSURFACE_H
+#include "SmootherVertex.H"
 
-#include "SmootherFeature.h"
+// * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * //
 
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-namespace Foam
-{
-
-/*---------------------------------------------------------------------------*\
-                 Class MeshSmootherPointSurface Declaration
-\*---------------------------------------------------------------------------*/
-
-class SmootherSurface
+Foam::SmootherVertex::SmootherVertex(const label ref, const point& pt)
 :
-    public SmootherFeature
+    SmootherPoint(ref, pt)
 {
-public:
-    SmootherSurface(const label ref, const label featureRef, const point &pt);
+}
 
-    void GETMeSmooth();
-    void snap();
-    void featLaplaceSmooth();
-    bool isSurface() const {return true;}
-};
+
+
+// * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-} // End namespace Foam
-
-// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
-
-#endif // MESHSMOOTHERPOINTSURFACE_H
 
 // ************************************************************************* //

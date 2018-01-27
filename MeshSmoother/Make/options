@@ -1,5 +1,4 @@
 EXE_INC = \
-    /* -g -DFULLDEBUG -O0 */ \
     -I$(LIB_SRC)/mesh/blockMesh/lnInclude \
     -I$(LIB_SRC)/meshTools/lnInclude \
     -I$(LIB_SRC)/edgeMesh/lnInclude \
@@ -15,6 +14,5 @@ EXE_INC = \
 LIB_LIBS = \
     -lblockMesh \
     -lmeshTools \
-    -ledgeMesh \
     -lfiniteVolume \
     -ldynamicMesh

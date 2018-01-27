@@ -20,7 +20,7 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "MeshSmoother.h"
+#include "MeshSmoother.H"
 
 #include "triSurface.H"
 #include "polyPatch.H"
@@ -28,11 +28,11 @@ License
 #include "IOmanip.H"
 #include "blockMesh.H"
 
-#include "SmootherPoint.h"
-#include "SmootherCell.h"
-#include "SmootherControl.h"
-#include "SmootherParameter.h"
-#include "SmootherBoundary.h"
+#include "SmootherPoint.H"
+#include "SmootherCell.H"
+#include "SmootherControl.H"
+#include "SmootherParameter.H"
+#include "SmootherBoundary.H"
 
 #include <algorithm>
 #include <cmath>

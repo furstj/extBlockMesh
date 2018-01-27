@@ -20,67 +20,58 @@ License
 
 \*---------------------------------------------------------------------------*/
 
-#include "SmootherEdge.h"
+#include "SmootherPoint.H"
 
-#include "SmootherBoundary.h"
+#include "polyMesh.H"
 
-// * * * * * * * * * * * * * * * Private Functions * * * * * * * * * * * * * //
+#include "SmootherParameter.H"
+#include "SmootherBoundary.H"
+
+// * * * * * * * * * * * * * * Static Data Members * * * * * * * * * * * * * //
+
+namespace Foam
+{
+    polyMesh* SmootherPoint::_polyMesh = NULL;
+    SmootherBoundary* SmootherPoint::_bnd = NULL;
+    SmootherParameter* SmootherPoint::_param = NULL;
+}
 
 // * * * * * * * * * * * * * * * * Constructors  * * * * * * * * * * * * * * //
 
-Foam::SmootherEdge::SmootherEdge
-(
-    const label ref,
-    const label featureRef,
-    const point& pt
-)
+Foam::SmootherPoint::SmootherPoint(const label ref, const point &pt)
 :
-    SmootherFeature(ref, featureRef, pt)
+    _relaxedPt(pt),
+    _ptRef(ref)
+{
+}
+
+Foam::SmootherPoint::SmootherPoint()
 {
 }
 
 // * * * * * * * * * * * * * * * Member Functions  * * * * * * * * * * * * * //
 
-void Foam::SmootherEdge::GETMeSmooth()
+void Foam::SmootherPoint::setStaticItems
+(
+    SmootherBoundary *bnd,
+    SmootherParameter *param,
+    polyMesh *mesh
+)
 {
-    SmootherPoint::GETMeSmooth();
-    _movedPt = _bnd->snapToEdge(_featureRef, _movedPt);
+    _bnd = bnd;
+    _param = param;
+    _polyMesh = mesh;
 }
 
-void SmootherEdge::snap()
-{
-//    const labelList& pp = _polyMesh->pointPoints(_ptRef);
-//    label nbPt = 0;
-//    _movedPt = point(0.0, 0.0, 0.0);
-//    forAll(pp, ptI)
-//    {
-//        if (_bnd->pt(pp[ptI])->isEdge())
-//        {
-//            _movedPt += _bnd->pt(pp[ptI])->getInitialPoint();
-//            ++nbPt;
-//        }
-//    }
-//    _movedPt /= nbPt;
-
-//    _movedPt = _bnd->snapToEdge(_featureRef, _movedPt);
-    _movedPt = _bnd->snapToEdge(_featureRef, _initialPt);
-}
-
-void SmootherEdge::featLaplaceSmooth()
+void SmootherPoint::laplaceSmooth()
 {
     const labelList& pp = _polyMesh->pointPoints(_ptRef);
-    label nbPt = 0;
     _movedPt = point(0.0, 0.0, 0.0);
     forAll(pp, ptI)
     {
-        if (_bnd->pt(pp[ptI])->isEdge())
-        {
-            _movedPt += _bnd->pt(pp[ptI])->getRelaxedPoint();
-            ++nbPt;
-        }
+        _movedPt += _bnd->pt(pp[ptI])->getInitialPoint();
     }
-
-    _movedPt /= nbPt;
+    _movedPt /= pp.size();
 }
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
